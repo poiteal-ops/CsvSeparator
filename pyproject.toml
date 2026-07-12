@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "csvseparator"
+version = "1.0.0"
+description = "Detect and fix separators in CSV files with text fields containing commas"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+    {name = "User"}
+]
+
+[project.scripts]
+csvseparator = "csvseparator.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]

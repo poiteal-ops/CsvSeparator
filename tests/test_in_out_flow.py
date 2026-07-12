@@ -172,6 +172,60 @@ class ProjectDirectoriesTests(unittest.TestCase):
             self.assertEqual(lines[0], "id|name")
             self.assertEqual(len(list(Path(output_path).parent.glob("*.issues.json"))), 0)
 
+    def test_repairs_row_with_extra_columns_by_quoting_the_broken_field(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            csv_path = Path(tmpdir) / "sample.csv"
+            csv_path.write_text(
+                'id,name,address,amount,notes\n'
+                '1,Alice,"100 Main St, Suite 1",10.00,ok\n'
+                '2,Bob,100 Main St, Suite 2,20.00,ok\n'
+                '3,Carol,"100 Main St, Suite 3",30.00,ok\n',
+                encoding="utf-8",
+            )
+
+            detector = CsvSeparatorDetector(str(csv_path))
+            rows, summary = detector.repair_quoting()
+
+            self.assertEqual(summary, [{"row_number": 3, "status": "repaired", "quoted_column": "address"}])
+            self.assertEqual(rows[2], ["2", "Bob", "100 Main St, Suite 2", "20.00", "ok"])
+            self.assertEqual(detector.get_column_mismatch_report(rows=rows), [])
+
+    def test_leaves_ambiguous_rows_unresolved_instead_of_guessing(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            csv_path = Path(tmpdir) / "sample.csv"
+            csv_path.write_text(
+                "id,name,notes\n"
+                "1,Alice,ok\n"
+                "2,Bob,broken,extra\n",
+                encoding="utf-8",
+            )
+
+            detector = CsvSeparatorDetector(str(csv_path))
+            rows, summary = detector.repair_quoting()
+
+            self.assertEqual(summary, [{"row_number": 3, "status": "unresolved", "quoted_column": None}])
+            self.assertEqual(rows[2], ["2", "Bob", "broken", "extra"])
+
+    def test_convert_with_quote_fix_writes_repaired_rows_without_flagging_them(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            csv_path = Path(tmpdir) / "sample.csv"
+            csv_path.write_text(
+                'id,name,address,amount,notes\n'
+                '1,Alice,"100 Main St, Suite 1",10.00,ok\n'
+                '2,Bob,100 Main St, Suite 2,20.00,ok\n'
+                '3,Carol,"100 Main St, Suite 3",30.00,ok\n',
+                encoding="utf-8",
+            )
+            out_dir = Path(tmpdir) / "out"
+
+            detector = CsvSeparatorDetector(str(csv_path))
+            output_path = detector.convert_separator(",", output_dir=str(out_dir), quote_fix=True)
+
+            lines = Path(output_path).read_text(encoding="utf-8").splitlines()
+            self.assertEqual(lines[0], "id,name,address,amount,notes")
+            self.assertIn('2,Bob,"100 Main St, Suite 2",20.00,ok', lines)
+            self.assertEqual(len(list(Path(output_path).parent.glob("*.issues.json"))), 0)
+
     def test_counts_values_that_already_contain_the_target_separator(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             csv_path = Path(tmpdir) / "sample.csv"
@@ -213,6 +267,32 @@ class NonInteractiveCliTests(unittest.TestCase):
             payload = json.loads(buffer.getvalue())
             self.assertTrue(payload["issues_found"])
             self.assertEqual(payload["converted"], False)
+
+    def test_quote_fix_cli_reports_repaired_rows_and_can_fully_resolve_the_file(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            csv_path = Path(tmpdir) / "sample.csv"
+            csv_path.write_text(
+                'id,name,address,amount,notes\n'
+                '1,Alice,"100 Main St, Suite 1",10.00,ok\n'
+                '2,Bob,100 Main St, Suite 2,20.00,ok\n'
+                '3,Carol,"100 Main St, Suite 3",30.00,ok\n',
+                encoding="utf-8",
+            )
+            args = build_arg_parser().parse_args([
+                "--input", str(csv_path), "--analyze-only", "--quote-fix", "--format", "json",
+            ])
+
+            buffer = io.StringIO()
+            with contextlib.redirect_stdout(buffer):
+                exit_code = run_noninteractive(args)
+
+            self.assertEqual(exit_code, 0)
+            payload = json.loads(buffer.getvalue())
+            self.assertFalse(payload["issues_found"])
+            self.assertEqual(
+                payload["quote_repairs"],
+                [{"row_number": 3, "status": "repaired", "quoted_column": "address"}],
+            )
 
     def test_requires_yes_flag_to_actually_write_output(self):
         with tempfile.TemporaryDirectory() as tmpdir:

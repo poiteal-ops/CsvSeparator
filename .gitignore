@@ -3,10 +3,12 @@
 
 /out/*
 !/out/sample.csv
+!/out/.gitkeep
 
 /xls/
 
 .claude/settings.local.json
+CLAUDE.md
 
 # Python
 __pycache__/

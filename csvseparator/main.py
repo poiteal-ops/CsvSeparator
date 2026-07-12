@@ -117,13 +117,14 @@ def run_interactive() -> int:
         print(f"⚠️  {warning}")
 
     print("\n--- Analyzing for separator issues ---")
-    has_issues, problem_count = detector.analyze_structural_issues()
+    report = detector.get_column_mismatch_report()
+    has_issues = bool(report)
 
     if has_issues:
-        print(f"⚠️  Detected {problem_count} rows with potential comma issues")
+        print(f"⚠️  Detected {len(report)} rows with potential comma issues")
         print("Some fields may contain commas that interfere with CSV parsing.")
         print("\n--- Error Report ---")
-        for issue in detector.get_column_mismatch_report():
+        for issue in report:
             print(issue["highlighted_row"])
     else:
         print("✓ No obvious separator issues detected in the file.")
@@ -133,11 +134,22 @@ def run_interactive() -> int:
         print("Conversion cancelled.")
         return EXIT_OK
 
+    quote_fix = False
+    has_extra_column_rows = any(issue["actual_columns"] > issue["expected_columns"] for issue in report)
+    if has_extra_column_rows:
+        answer = input(
+            "\nAttempt automatic repair by quoting affected fields before converting? (y/n): "
+        ).strip().lower()
+        quote_fix = answer == 'y'
+
     new_separator = prompt_for_separator()
     _warn_about_collisions(detector, new_separator)
 
     print(f"\nConverting to {separator_label(new_separator)} separator...")
-    output_path = detector.convert_separator(new_separator, output_dir=str(output_dir))
+    if quote_fix:
+        _, quote_repairs = detector.repair_quoting()
+        _print_quote_repairs(quote_repairs)
+    output_path = detector.convert_separator(new_separator, output_dir=str(output_dir), quote_fix=quote_fix)
     print("✓ Conversion complete!")
     print(f"Output file: {output_path}")
     if has_issues:
@@ -181,6 +193,14 @@ def build_arg_parser() -> argparse.ArgumentParser:
         help="Only report structural issues; do not write a converted file.",
     )
     parser.add_argument(
+        "--quote-fix",
+        action="store_true",
+        help="Attempt to repair rows with extra columns by quoting the field "
+             "that contains the unescaped comma, before any separator "
+             "conversion. Rows where the field can't be confidently "
+             "identified are left flagged, unrepaired.",
+    )
+    parser.add_argument(
         "--yes", "-y",
         action="store_true",
         help="Actually write the converted file. Without this flag, non-interactive "
@@ -213,6 +233,14 @@ def _resolve_input_path(raw_path: str) -> Path:
     return candidate  # let CsvSeparatorDetector raise a clear FileNotFoundError
 
 
+def _print_quote_repairs(quote_repairs: list) -> None:
+    for entry in quote_repairs:
+        if entry["status"] == "repaired":
+            print(f"✓ Row {entry['row_number']}: quoted '{entry['quoted_column']}' to fix an unescaped comma")
+        else:
+            print(f"⚠️  Row {entry['row_number']}: extra columns from unescaped commas, but couldn't be confidently repaired")
+
+
 def run_noninteractive(args: argparse.Namespace) -> int:
     """Scriptable flow driven entirely by CLI flags: for CI jobs and runbooks."""
     file_path = _resolve_input_path(args.input)
@@ -220,7 +248,13 @@ def run_noninteractive(args: argparse.Namespace) -> int:
 
     info = detector.get_file_info()
     warnings = detector.get_parse_warnings()
-    report = detector.get_column_mismatch_report()
+
+    quote_repairs = []
+    if args.quote_fix:
+        rows, quote_repairs = detector.repair_quoting()
+        report = detector.get_column_mismatch_report(rows=rows)
+    else:
+        report = detector.get_column_mismatch_report()
     has_issues = bool(report)
 
     if args.format == "json":
@@ -232,11 +266,15 @@ def run_noninteractive(args: argparse.Namespace) -> int:
             "issue_count": len(report),
             "report": report,
         }
+        if args.quote_fix:
+            payload["quote_repairs"] = quote_repairs
     else:
         if 'error' not in info:
             _print_file_info(info)
         for warning in warnings:
             print(f"⚠️  {warning}")
+        if args.quote_fix:
+            _print_quote_repairs(quote_repairs)
         if has_issues:
             print(f"⚠️  Detected {len(report)} rows with potential comma issues")
             for issue in report:
@@ -263,7 +301,9 @@ def run_noninteractive(args: argparse.Namespace) -> int:
     new_separator = _resolve_separator(args)
     collisions = detector.count_separator_collisions(new_separator)
     output_dir = args.output_dir or str(Path.cwd() / "out")
-    output_path = detector.convert_separator(new_separator, output_path=args.output, output_dir=output_dir)
+    output_path = detector.convert_separator(
+        new_separator, output_path=args.output, output_dir=output_dir, quote_fix=args.quote_fix,
+    )
 
     if args.format == "json":
         payload["converted"] = True

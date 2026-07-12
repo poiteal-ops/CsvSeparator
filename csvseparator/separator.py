@@ -48,6 +48,7 @@ def _build_column_profile(values: List[str]) -> dict:
         return {
             "dominant_type": "empty",
             "non_empty_ratio": 0.0,
+            "comma_ratio": 0.0,
         }
 
     numeric_count = sum(1 for value in cleaned if _looks_numeric(value))
@@ -60,9 +61,12 @@ def _build_column_profile(values: List[str]) -> dict:
     else:
         dominant_type = "mixed"
 
+    comma_count = sum(1 for value in cleaned if "," in value)
+
     return {
         "dominant_type": dominant_type,
         "non_empty_ratio": len(cleaned) / len(values),
+        "comma_ratio": comma_count / len(cleaned),
     }
 
 
@@ -159,26 +163,12 @@ class CsvSeparatorDetector:
         report = self.get_column_mismatch_report()
         return bool(report), len(report)
 
-    def get_column_mismatch_report(self) -> List[dict]:
-        """Return rows that look structurally inconsistent with the rest of the file."""
-        lines, parse_error, _ = self._read_csv_rows()
-        if parse_error:
-            return [{
-                "row_number": 1,
-                "expected_columns": 0,
-                "actual_columns": 0,
-                "reasons": [parse_error],
-                "highlighted_row": f"❗ Row 1: {parse_error}",
-            }]
+    def _build_column_profiles(self, header_cols: int, data_rows: List[List[str]]) -> List[dict]:
+        """Build a per-column profile from structurally-clean rows.
 
-        if not lines:
-            return []
-
-        header_cols = len(lines[0])
-        data_rows = lines[1:]
-
-        # Build column profiles only from structurally-clean rows so that
-        # malformed rows don't skew what "normal" looks like for a column.
+        Only rows whose column count already matches the header are used, so
+        malformed rows can't skew what "normal" looks like for a column.
+        """
         clean_rows = [row for row in data_rows if len(row) == header_cols]
         profile_source = clean_rows if clean_rows else data_rows
 
@@ -186,6 +176,56 @@ class CsvSeparatorDetector:
         for col_idx in range(header_cols):
             column_values = [row[col_idx] if col_idx < len(row) else "" for row in profile_source]
             profiles.append(_build_column_profile(column_values))
+        return profiles
+
+    @staticmethod
+    def _type_mismatch_reasons(row: List[str], header_cols: int, profiles: List[dict]) -> List[str]:
+        """Check a row's values against expected per-column profiles.
+
+        Only looks at the overlapping columns (min(header_cols, len(row))) -
+        column-count and extra-value reasons are the caller's responsibility.
+        """
+        reasons = []
+        for col_idx in range(min(header_cols, len(row))):
+            value = row[col_idx].strip()
+            profile = profiles[col_idx]
+
+            if not value and profile["non_empty_ratio"] >= 0.8:
+                reasons.append(f"column {col_idx + 1} is empty even though similar rows usually contain data")
+                continue
+
+            if profile["dominant_type"] == "numeric" and value and not _looks_numeric(value):
+                reasons.append(f"column {col_idx + 1} has text-like value '{value}' but this column is usually numeric")
+            elif profile["dominant_type"] == "text" and value and _looks_numeric(value) and len(value) <= 10:
+                reasons.append(f"column {col_idx + 1} has numeric-looking value '{value}' but this column usually contains text")
+
+        return reasons
+
+    def get_column_mismatch_report(self, rows: List[List[str]] | None = None) -> List[dict]:
+        """Return rows that look structurally inconsistent with the rest of the file.
+
+        By default reads and parses the file from disk. Pass `rows` (e.g.
+        after `repair_quoting()`) to re-evaluate an already-parsed, possibly
+        repaired, row set instead.
+        """
+        if rows is None:
+            rows, parse_error, _ = self._read_csv_rows()
+            if parse_error:
+                return [{
+                    "row_number": 1,
+                    "expected_columns": 0,
+                    "actual_columns": 0,
+                    "reasons": [parse_error],
+                    "highlighted_row": f"❗ Row 1: {parse_error}",
+                }]
+
+        lines = rows
+        if not lines:
+            return []
+
+        header_cols = len(lines[0])
+        data_rows = lines[1:]
+        profiles = self._build_column_profiles(header_cols, data_rows)
 
         mismatches = []
         for row_number, row in enumerate(data_rows, start=2):
@@ -195,18 +235,7 @@ class CsvSeparatorDetector:
             if actual_columns != header_cols:
                 reasons.append(f"expected {header_cols} columns but found {actual_columns}")
 
-            for col_idx in range(min(header_cols, actual_columns)):
-                value = row[col_idx].strip()
-                profile = profiles[col_idx]
-
-                if not value and profile["non_empty_ratio"] >= 0.8:
-                    reasons.append(f"column {col_idx + 1} is empty even though similar rows usually contain data")
-                    continue
-
-                if profile["dominant_type"] == "numeric" and value and not _looks_numeric(value):
-                    reasons.append(f"column {col_idx + 1} has text-like value '{value}' but this column is usually numeric")
-                elif profile["dominant_type"] == "text" and value and _looks_numeric(value) and len(value) <= 10:
-                    reasons.append(f"column {col_idx + 1} has numeric-looking value '{value}' but this column usually contains text")
+            reasons.extend(self._type_mismatch_reasons(row, header_cols, profiles))
 
             if actual_columns > header_cols:
                 extra_values = row[header_cols:]
@@ -223,6 +252,82 @@ class CsvSeparatorDetector:
 
         return mismatches
 
+    def _find_quote_repair(self, row: List[str], header_cols: int, profiles: List[dict]) -> Tuple[List[str], int] | None:
+        """Try to find the single column whose unescaped comma(s) produced the extra tokens in `row`.
+
+        Returns (repaired_row, quoted_column_index) if exactly one candidate
+        split point produces a row with no remaining type/empty mismatches,
+        else None (ambiguous or no clean candidate).
+        """
+        extra = len(row) - header_cols
+        if extra <= 0:
+            return None
+
+        merge_len = extra + 1
+        clean_candidates = []
+        for p in range(header_cols):
+            left = row[:p]
+            merged = ",".join(row[p:p + merge_len])
+            right = row[p + merge_len:]
+            candidate = left + [merged] + right
+
+            # A merge that reintroduces a comma into a column that never
+            # legitimately contains one (per the clean-row profile) is very
+            # unlikely to be the real split point, even if it happens to
+            # still "look like text" - e.g. a merged "Bob Smith,456 Oak Ave"
+            # landing in a name column. Columns that do legitimately contain
+            # commas (addresses, notes) allow it.
+            if "," in merged and profiles[p]["comma_ratio"] == 0:
+                continue
+
+            if not self._type_mismatch_reasons(candidate, header_cols, profiles):
+                clean_candidates.append((candidate, p))
+
+        if len(clean_candidates) == 1:
+            return clean_candidates[0]
+        return None
+
+    def repair_quoting(self) -> Tuple[List[List[str]], List[dict]]:
+        """Attempt to fix rows with extra columns by quoting the field with the unescaped comma.
+
+        Returns (rows, summary): `rows` is the full row list (header + data),
+        repaired in place where possible. `summary` has one entry per row
+        that had extra columns: {"row_number", "status": "repaired" or
+        "unresolved", "quoted_column"} (quoted_column is the header name,
+        None when unresolved).
+        """
+        rows, parse_error, _ = self._read_csv_rows()
+        if parse_error or not rows:
+            return rows, []
+
+        header = rows[0]
+        header_cols = len(header)
+        data_rows = rows[1:]
+        profiles = self._build_column_profiles(header_cols, data_rows)
+
+        repaired_rows = [header]
+        summary = []
+        for row_number, row in enumerate(data_rows, start=2):
+            if len(row) > header_cols:
+                fixed = self._find_quote_repair(row, header_cols, profiles)
+                if fixed is not None:
+                    candidate, quoted_index = fixed
+                    repaired_rows.append(candidate)
+                    summary.append({
+                        "row_number": row_number,
+                        "status": "repaired",
+                        "quoted_column": header[quoted_index],
+                    })
+                    continue
+                summary.append({
+                    "row_number": row_number,
+                    "status": "unresolved",
+                    "quoted_column": None,
+                })
+            repaired_rows.append(row)
+
+        return repaired_rows, summary
+
     def count_separator_collisions(self, separator: str) -> int:
         """Count data cells that already contain the given separator character."""
         rows, parse_error, _ = self._read_csv_rows()
@@ -238,6 +343,7 @@ class CsvSeparatorDetector:
         new_separator: str,
         output_path: str | None = None,
         output_dir: str | None = None,
+        quote_fix: bool = False,
     ) -> str:
         """
         Convert CSV file to use a new separator.
@@ -246,6 +352,8 @@ class CsvSeparatorDetector:
             new_separator: The new separator character
             output_path: Optional exact output file path (takes precedence)
             output_dir: Optional directory to place the default-named output file in
+            quote_fix: If True, attempt to repair rows with extra columns by
+                quoting the field with the unescaped comma before writing
 
         Returns:
             Path to the output file
@@ -262,7 +370,10 @@ class CsvSeparatorDetector:
             if parse_error:
                 raise CsvParsingError(parse_error)
 
-            mismatches = self.get_column_mismatch_report()
+            if quote_fix:
+                rows, _ = self.repair_quoting()
+
+            mismatches = self.get_column_mismatch_report(rows=rows)
             rows_to_write = rows
 
             if mismatches and rows:

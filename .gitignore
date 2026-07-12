@@ -1,0 +1,18 @@
+/in/*
+!/in/sample.csv
+
+/out/*
+!/out/sample.csv
+
+/xls/
+
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.venv/
+.venv-1/
+build/
+dist/

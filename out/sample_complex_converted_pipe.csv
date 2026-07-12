@@ -1,0 +1,101 @@
+id|customer_name|shipping_address|total|notes|company|region|sales_rep|quantity|priority_level|row_issues
+1|Sam Cruz|49 Oak Ave, Floor 2, Coast City|1162.15|Signature required|Wayne Enterprises|Asia Pacific|Noah Brown|262|1|
+2|Paul Clark|651 Maple Dr, Suite 1, Springfield|8709.75|Handle with care|Globex Inc|Asia Pacific|Rosa Patel|489|3|
+3|Quinn Cruz|576 Main St, Suite 200, Hub City|5967.53|Gift wrap requested|Stark Industries|Asia Pacific|David Cruz|223|2|
+4|Ivy Brown|241 Cedar Blvd, Suite 1, Keystone|3507.29|"Handle with care | priority"|Vandelay Industries|Middle East|Alice Brown|476|3|
+5|Paul Smith|291 Main St, Floor 2, Springfield|8453.74|Contains, commas, in notes|Vandelay Industries|Asia Pacific|Jack Johnson|425|4|
+6|Henry Brown|326 Maple Dr, Apt 4B, Keystone|9106.15|Leave at front desk|Vandelay Industries|Asia Pacific|Elena Davis|50|1|
+7|Noah Moore|691 River Rd, Rear Entrance, Riverside|3992.92|24218|Hooli Inc|North America|Carol Rivera|44|1|column 5 has numeric-looking value '24218' but this column usually contains text
+8|Alice Brown|301 Maple Dr, Unit 2, Fawcett City|6381.68|Handle with care|Wayne Enterprises|Europe|Bob Cruz|482|4|
+9|Alice Smith|734 Main St, Floor 8, Metropolis|220.11|Call before drop-off|Acme Corp|Asia Pacific|Carol Garcia|122|3|
+10|Frank Johnson|276 Cedar Blvd, Rear Entrance, Gotham|848.55|Gift wrap requested|Hooli Inc|Asia Pacific|Karen Clark|451|4|
+11|Quinn Smith|881 Pine Rd, Suite 200, Keystone|9193.76|Needs delivery before noon|Globex Inc|Europe|Mona Smith|483|5|
+12|Sam Brown|685 Maple Dr, Building C, Fawcett City|2678.79|Large order, fragile items|Soylent LLC|Latin America|Liam Moore|283|5|
+13|Quinn Kim|267 Main St, Suite 200, Coast City|7178.23|Leave at front desk|Stark Industries|North America|Alice Moore|395|2|
+14|Quinn Kim|822 Pine Rd, Suite 200, Star City|4654.77|Call before drop-off|Soylent LLC|Middle East|Karen Smith|420|2|
+15|David Davis|862 Pine Rd, Unit 2, Star City|9921.66|Gift wrap requested|Soylent LLC|Asia Pacific|Noah Rivera|248|4|
+16|Carol Clark|555 Pine Rd, Building C, Fawcett City|9469.08|Contains, commas, in notes|Soylent LLC|Europe|Ivy Garcia|447|5|
+17|Elena Johnson|57 Elm St, Unit 2, Keystone|6730.56|Call before drop-off|Globex Inc|Latin America|Noah Adams|323|5|
+18|David Clark|848 Pine Rd, Unit 9, Metropolis|7670.55|Deliver Monday, not Friday|Vandelay Industries|North America|Jack Brown|347|4|
+19|Karen Adams|779 Oak Ave, Apt 4B, Fawcett City|1317.34|Gift wrap requested|Vandelay Industries|Middle East|David Smith|276|2|
+20|Sam Lee|731 Oak Ave, Apt 4B, Gotham|797.14|Deliver to loading dock|Stark Industries|North America|Henry Rivera|52|4|
+21|Frank Rivera|488 Pine Rd, Floor 2, Hub City|4861.08|Standard shipping|Acme Corp|Latin America|Sam Brown|340|1|
+22|Grace Adams|623 Sunset Way, Building C, Metropolis|2444.63|Standard shipping|Stark Industries|Latin America|Karen Adams|404|5|
+23|Bob Lee|305 River Rd, Unit 2, Metropolis|4510.08|Leave at front desk|Umbrella Ltd|Asia Pacific|Sam Davis|412|2|
+24|Bob Wilson|456 Main St, Suite 1, Hub City|3857.72|Leave at front desk|Umbrella Ltd|Asia Pacific|Noah Smith|486|3|
+25|Ivy Rivera|155 Oak Ave, Apt 4B, Riverside|4256.71|Signature required|Stark Industries|Middle East|Sam Adams|148|4|
+26|Tara Clark|951 Sunset Way, Unit 2, Fawcett City|7075.31|Leave at front desk|Wonka Co|Middle East|Ivy Moore|437|2|
+27|David Rivera|680 Sunset Way, Floor 8, Coast City|4542.16|Handle with care|Hooli Inc|Europe|83306|424|4|column 8 has numeric-looking value '83306' but this column usually contains text
+28|Jack Wilson|901 Birch Ln, Suite 200, Fawcett City|8305.59|Gift wrap requested|Globex Inc|Europe|Henry Rivera|347|expected 10 columns but found 9
+29|Liam Brown|784 Maple Dr, Unit 2, Springfield|4624.68|Deliver Monday, not Friday|Umbrella Ltd|Asia Pacific|Rosa Nguyen|475|3|
+30|Mona Garcia|863 Main St, Unit 9, Star City|6775.73|Leave at front desk|Umbrella Ltd|Latin America|Sam Brown|336|3|
+31|Jack Patel|697 Birch Ln, Unit 2, Hub City|4236.72|Call before drop-off|Hooli Inc|North America|Henry Lee|33|3|
+32|Sam Wilson|754 Pine Rd, Suite 3, Metropolis||Standard shipping|Hooli Inc|Middle East|Noah Cruz|17|3|column 4 is empty even though similar rows usually contain data
+33|Noah Kim|359 Pine Rd, Rear Entrance, Star City|926.57|"Standard shipping | priority"|Wayne Enterprises|Middle East|Tara Smith|453|1|
+34|Karen Cruz|911 Highland Ave, Unit 9, Hub City|4880.14|Leave at front desk|Acme Corp|Middle East|Grace Smith|124|4|
+35|Henry Wilson|342 Main St, Unit 9, Central City|6177.80|Leave at front desk|Hooli Inc|Europe|Jack Adams|15|1|
+36|Mona Adams|946 Maple Dr, Building C, Star City|8764.04|Gift wrap requested|Initech LLC|Europe|Rosa Garcia|135|5|
+37|Paul Kim|821 Main St, Suite 200, Star City|4890.40|Gift wrap requested|Umbrella Ltd|Latin America|Henry Cruz|340|5|
+38|Sam Lee|842 Elm St, Rear Entrance, Riverside|695.35|Call before drop-off|Vandelay Industries|North America||75|2|column 8 is empty even though similar rows usually contain data
+39|David Adams|147 River Rd, Suite 200, Metropolis|88.15|Leave at front desk|Soylent LLC|Europe|Ivy Cruz|310|2|
+40|Carol Brown|654 Main St, Building C, Riverside|1149.62|Contains, commas, in notes|Vandelay Industries|Asia Pacific|Carol Lee|61|5|
+41||25 Birch Ln, Floor 8, Keystone|5406.21|Handle with care|Wayne Enterprises|North America|Frank Cruz|27|2|column 2 is empty even though similar rows usually contain data
+42|Tara Moore|510 Main St, Suite 200, Central City|5397.86|Needs delivery before noon|Stark Industries|Europe|Bob Lee|450|5|
+43|Grace Lee|766 Maple Dr, Unit 9, Keystone|3162.01|Signature required|Soylent LLC|Middle East|Jack Smith|427|2|
+44|Quinn Patel|471 Maple Dr, Unit 9, Keystone|7646.03|Call before drop-off|Wonka Co|Asia Pacific|Sam Brown|31|5|
+45|Sam Moore|900 Oak Ave, Unit 2, Metropolis|4957.84|Deliver Monday, not Friday|Soylent LLC|Latin America|Alice Wilson|74|4|
+46|Noah Smith|153 Main St, Apt 4B, Star City|6357.05|Leave at front desk|Hooli Inc|North America|David Lee|455|expected 10 columns but found 9
+47|Jack Lee|69 Highland Ave, Suite 1, Springfield|6621.43|Call before drop-off|Wayne Enterprises|North America|Bob Brown|245|5|
+48|Carol Clark|414 Main St, Unit 9, Hub City|9672.06|Deliver to loading dock|Globex Inc|Latin America|Liam Davis|384|expected 10 columns but found 9
+49|Karen Garcia|487 Cedar Blvd, Apt 4B, Gotham|7066.42|Contains, commas, in notes|Wonka Co|Latin America|Sam Wilson|11|5|
+50|Olivia Smith|332 River Rd, Rear Entrance, Metropolis|2889.01|Needs delivery before noon|Wonka Co|Middle East|Alice Davis|446|5|
+51|Rosa Wilson|447 Sunset Way, Apt 4B, Metropolis|6374.13|Gift wrap requested|Globex Inc|Europe|Rosa Johnson|428|3|
+52|Noah Wilson|573 Birch Ln, Rear Entrance, Fawcett City|3696.15|Deliver to loading dock|Stark Industries|Asia Pacific|Ivy Lee|62|2|
+53|Grace Cruz|686 Oak Ave, Building C, Gotham|9600.53|Rush order, please expedite|Initech LLC|Middle East|Carol Nguyen|2|4|
+54|Tara Cruz|370 Oak Ave, Floor 2, Hub City|8681.37|Leave at front desk|65764|Europe|Paul Lee|434|1|column 6 has numeric-looking value '65764' but this column usually contains text
+55|Noah Davis|607 Highland Ave, Suite 1, Central City|2469.45|Handle with care|Stark Industries|Europe|Karen Lee|136|4|
+56|Elena Smith|139 River Rd, Floor 2, Keystone|744.10|Deliver Monday, not Friday|61811|Asia Pacific|Mona Brown|272|3|column 6 has numeric-looking value '61811' but this column usually contains text
+57|Frank Moore|373 Elm St, Unit 9, Metropolis|2786.68|Deliver to loading dock|Vandelay Industries|Europe|Rosa Wilson|126|2|
+58|99886|997 Main St, Apt 4B, Fawcett City|443.17|Leave at front desk|Wonka Co|Latin America|David Kim|365|4|column 2 has numeric-looking value '99886' but this column usually contains text
+59|Rosa Patel|235 Maple Dr, Floor 2, Star City|2334.05|Call before drop-off|Acme Corp|Europe|Noah Moore|143|2|
+60|Karen Wilson|435 Pine Rd, Floor 8, Riverside|3654.60|Large order, fragile items|Soylent LLC|Asia Pacific|Quinn Garcia|468|expected 10 columns but found 9
+61|Carol Patel|109 Birch Ln, Rear Entrance, Keystone|2160.77|Handle with care|Stark Industries|North America|Olivia Garcia|64|4|
+62|Sam Wilson|860 Elm St, Suite 200, Star City|3972.18|Handle with care|Vandelay Industries|North America|Sam Clark|22|3|
+63|Henry Brown|402 Elm St, Suite 3, Springfield|3777.95|Call before drop-off|Wayne Enterprises|Latin America|Mona Patel|340|2|
+64|Paul Kim|806 Birch Ln, Suite 1, Keystone|7419.02|Handle with care|Globex Inc|Latin America|Quinn Lee||5|column 9 is empty even though similar rows usually contain data
+65|Quinn Clark|192 Sunset Way, Suite 200, Star City|4542.25|Leave at front desk|Soylent LLC|Middle East|Grace Nguyen|192|2|
+66|Alice Brown|166 Elm St, Building C, Fawcett City|7544.04|Call before drop-off|Globex Inc|Middle East|Grace Kim|359|3|
+67|Carol Kim|366 Cedar Blvd, Rear Entrance, Central City|1822.90|Gift wrap requested|Globex Inc|Europe|Karen Patel|356|4|
+68|Karen Cruz|895 Oak Ave, Unit 9, Central City|2236.78|Standard shipping|Soylent LLC|Latin America|Rosa Moore|481|1|
+69|Quinn Davis|359 Main St, Suite 3, Fawcett City|5331.59|Handle with care|Globex Inc|Latin America|Liam Davis|457|4|
+70|Olivia Clark|892 Sunset Way, Suite 200, Springfield|1842.86|Handle with care|Soylent LLC|North America|Carol Adams|386|2|
+71|Carol Adams|260 Birch Ln, Unit 9, Riverside|5063.28|Large order, fragile items|Hooli Inc|Middle East|Jack Brown|414|5|
+72|Karen Moore|16 Pine Rd, Building C, Keystone|299.21|"Leave at front desk | priority"|Wonka Co|North America|Elena Wilson|325|1|
+73|Sam Johnson|793 River Rd, Floor 2, Springfield|2510.92|Deliver Monday, not Friday|Initech LLC|Latin America|Quinn Davis|227|3|
+74|David Davis|249 Maple Dr, Apt 4B, Keystone|5849.17|Deliver to loading dock|Soylent LLC|Asia Pacific|Tara Lee|332|expected 10 columns but found 9
+75|David Johnson|422 Birch Ln, Suite 200, Gotham|4241.13|Needs delivery before noon|Umbrella Ltd|Europe|Rosa Kim|72|4|
+76|Jack Clark|409 Cedar Blvd, Suite 1, Hub City|3809.63|Large order, fragile items|Vandelay Industries|Europe|Paul Lee|140|4|
+77|Elena Clark|485 Sunset Way, Suite 1, Keystone|2499.24|Gift wrap requested|Wayne Enterprises|Latin America|Tara Rivera|369|5|
+78|Jack Garcia|326 Cedar Blvd, Rear Entrance, Coast City|6234.70|Handle with care|Stark Industries|Middle East|Elena Lee|216|4|
+79|Mona Adams|70 Pine Rd, Suite 3, Springfield|1671.28|Call before drop-off|Wonka Co|Asia Pacific|Olivia Cruz|217|5|
+80|Frank Clark|840 Pine Rd, Suite 3, Springfield|9737.66|Call before drop-off|Initech LLC|Asia Pacific|Noah Clark|343|2|
+81|Frank Wilson|892 Maple Dr, Unit 2, Star City|4272.71|Gift wrap requested|Umbrella Ltd|Asia Pacific|Quinn Kim|321|2|
+82|Bob Cruz|383 Main St, Rear Entrance, Gotham|5828.69|Rush order, please expedite|Umbrella Ltd|North America|Liam Clark|287|4|
+83|Henry Lee|152 Oak Ave, Suite 1, Metropolis|6397.23|Large order, fragile items|Vandelay Industries|Latin America|Bob Johnson|48|2|
+84|Henry Nguyen|531 Maple Dr, Suite 200, Springfield|4289.63|Deliver to loading dock|Globex Inc|Europe|Frank Clark|349|4|
+85|Alice Adams|664 Cedar Blvd, Unit 9, Fawcett City|4616.43|Leave at front desk|Initech LLC|North America|Olivia Moore|301|3|
+86|Henry Clark|485 Highland Ave, Floor 2, Coast City|8308.17|Contains, commas, in notes|Wayne Enterprises|North America|Paul Rivera|167|2|
+87|Mona Rivera|49 Maple Dr, Floor 8, Gotham|2675.12|Handle with care|Hooli Inc|Asia Pacific|Jack Rivera|408|2|
+88|Karen Rivera|796 Main St, Floor 8, Springfield|4627.52|Call before drop-off|Wayne Enterprises|Latin America|Ivy Smith|109|5|
+89|Henry Cruz|353 Birch Ln, Suite 1, Metropolis|2752.95|Large order, fragile items|Initech LLC|Europe|Henry Patel|356|2|
+90|Liam Smith|712 Birch Ln, Suite 1, Central City|2180.31|Call before drop-off||Latin America|Ivy Lee|496|1|column 6 is empty even though similar rows usually contain data
+91|Alice Davis|633 Elm St, Building C, Star City|4386.34|Handle with care|Soylent LLC|North America|Rosa Patel|48|2|
+92|Ivy Garcia|562 Maple Dr, Unit 2, Metropolis|1252.17|Standard shipping|Vandelay Industries|North America|Noah Wilson|166|5|
+93|Noah Brown|519 Highland Ave, Building C, Gotham|3754.29|Deliver Monday, not Friday|Globex Inc|Middle East|Mona Brown|350|2|
+94|74889|71 Highland Ave, Suite 1, Hub City|4324.01|Deliver to loading dock|Wayne Enterprises|North America|Noah Moore|448|4|column 2 has numeric-looking value '74889' but this column usually contains text
+95|Grace Davis|664 Highland Ave, Apt 4B, Springfield|9489.67|Handle with care|Wayne Enterprises||Elena Clark|290|2|column 7 is empty even though similar rows usually contain data
+96|Mona Lee|161 Main St, Suite 200, Coast City|1952.21|Gift wrap requested|Umbrella Ltd|Europe|Quinn Kim|26|5|
+97|Carol Cruz|463 Cedar Blvd, Unit 2, Keystone|1564.09|"Needs delivery before noon | priority"|Hooli Inc|Latin America|Ivy Lee|387|5|
+98|Alice Wilson|556 Pine Rd, Unit 9, Springfield|2969.21|Leave at front desk|Acme Corp|Middle East|Jack Wilson|484|2|
+99|Ivy Rivera|93 Maple Dr, Apt 4B, Hub City|2789.51|Standard shipping|Acme Corp|Asia Pacific|Henry Davis|36|1|
+100|Sam Brown|494 Elm St, Unit 2, Coast City|6692.42|Signature required|Umbrella Ltd|North America|David Davis|221|3|

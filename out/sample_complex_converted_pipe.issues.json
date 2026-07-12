@@ -1,0 +1,155 @@
+[
+  {
+    "row_number": 8,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 5 has numeric-looking value '24218' but this column usually contains text"
+    ],
+    "highlighted_row": "\u2757 Row 8: column 5 has numeric-looking value '24218' but this column usually contains text -> [7] | [Noah Moore] | [691 River Rd, Rear Entrance, Riverside] | [3992.92] | [24218] | [Hooli Inc] | [North America] | [Carol Rivera] | [44] | [1]"
+  },
+  {
+    "row_number": 28,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 8 has numeric-looking value '83306' but this column usually contains text"
+    ],
+    "highlighted_row": "\u2757 Row 28: column 8 has numeric-looking value '83306' but this column usually contains text -> [27] | [David Rivera] | [680 Sunset Way, Floor 8, Coast City] | [4542.16] | [Handle with care] | [Hooli Inc] | [Europe] | [83306] | [424] | [4]"
+  },
+  {
+    "row_number": 29,
+    "expected_columns": 10,
+    "actual_columns": 9,
+    "reasons": [
+      "expected 10 columns but found 9"
+    ],
+    "highlighted_row": "\u2757 Row 29: expected 10 columns but found 9 -> [28] | [Jack Wilson] | [901 Birch Ln, Suite 200, Fawcett City] | [8305.59] | [Gift wrap requested] | [Globex Inc] | [Europe] | [Henry Rivera] | [347]"
+  },
+  {
+    "row_number": 33,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 4 is empty even though similar rows usually contain data"
+    ],
+    "highlighted_row": "\u2757 Row 33: column 4 is empty even though similar rows usually contain data -> [32] | [Sam Wilson] | [754 Pine Rd, Suite 3, Metropolis] | [] | [Standard shipping] | [Hooli Inc] | [Middle East] | [Noah Cruz] | [17] | [3]"
+  },
+  {
+    "row_number": 39,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 8 is empty even though similar rows usually contain data"
+    ],
+    "highlighted_row": "\u2757 Row 39: column 8 is empty even though similar rows usually contain data -> [38] | [Sam Lee] | [842 Elm St, Rear Entrance, Riverside] | [695.35] | [Call before drop-off] | [Vandelay Industries] | [North America] | [] | [75] | [2]"
+  },
+  {
+    "row_number": 42,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 2 is empty even though similar rows usually contain data"
+    ],
+    "highlighted_row": "\u2757 Row 42: column 2 is empty even though similar rows usually contain data -> [41] | [] | [25 Birch Ln, Floor 8, Keystone] | [5406.21] | [Handle with care] | [Wayne Enterprises] | [North America] | [Frank Cruz] | [27] | [2]"
+  },
+  {
+    "row_number": 47,
+    "expected_columns": 10,
+    "actual_columns": 9,
+    "reasons": [
+      "expected 10 columns but found 9"
+    ],
+    "highlighted_row": "\u2757 Row 47: expected 10 columns but found 9 -> [46] | [Noah Smith] | [153 Main St, Apt 4B, Star City] | [6357.05] | [Leave at front desk] | [Hooli Inc] | [North America] | [David Lee] | [455]"
+  },
+  {
+    "row_number": 49,
+    "expected_columns": 10,
+    "actual_columns": 9,
+    "reasons": [
+      "expected 10 columns but found 9"
+    ],
+    "highlighted_row": "\u2757 Row 49: expected 10 columns but found 9 -> [48] | [Carol Clark] | [414 Main St, Unit 9, Hub City] | [9672.06] | [Deliver to loading dock] | [Globex Inc] | [Latin America] | [Liam Davis] | [384]"
+  },
+  {
+    "row_number": 55,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 6 has numeric-looking value '65764' but this column usually contains text"
+    ],
+    "highlighted_row": "\u2757 Row 55: column 6 has numeric-looking value '65764' but this column usually contains text -> [54] | [Tara Cruz] | [370 Oak Ave, Floor 2, Hub City] | [8681.37] | [Leave at front desk] | [65764] | [Europe] | [Paul Lee] | [434] | [1]"
+  },
+  {
+    "row_number": 57,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 6 has numeric-looking value '61811' but this column usually contains text"
+    ],
+    "highlighted_row": "\u2757 Row 57: column 6 has numeric-looking value '61811' but this column usually contains text -> [56] | [Elena Smith] | [139 River Rd, Floor 2, Keystone] | [744.10] | [Deliver Monday, not Friday] | [61811] | [Asia Pacific] | [Mona Brown] | [272] | [3]"
+  },
+  {
+    "row_number": 59,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 2 has numeric-looking value '99886' but this column usually contains text"
+    ],
+    "highlighted_row": "\u2757 Row 59: column 2 has numeric-looking value '99886' but this column usually contains text -> [58] | [99886] | [997 Main St, Apt 4B, Fawcett City] | [443.17] | [Leave at front desk] | [Wonka Co] | [Latin America] | [David Kim] | [365] | [4]"
+  },
+  {
+    "row_number": 61,
+    "expected_columns": 10,
+    "actual_columns": 9,
+    "reasons": [
+      "expected 10 columns but found 9"
+    ],
+    "highlighted_row": "\u2757 Row 61: expected 10 columns but found 9 -> [60] | [Karen Wilson] | [435 Pine Rd, Floor 8, Riverside] | [3654.60] | [Large order, fragile items] | [Soylent LLC] | [Asia Pacific] | [Quinn Garcia] | [468]"
+  },
+  {
+    "row_number": 65,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 9 is empty even though similar rows usually contain data"
+    ],
+    "highlighted_row": "\u2757 Row 65: column 9 is empty even though similar rows usually contain data -> [64] | [Paul Kim] | [806 Birch Ln, Suite 1, Keystone] | [7419.02] | [Handle with care] | [Globex Inc] | [Latin America] | [Quinn Lee] | [] | [5]"
+  },
+  {
+    "row_number": 75,
+    "expected_columns": 10,
+    "actual_columns": 9,
+    "reasons": [
+      "expected 10 columns but found 9"
+    ],
+    "highlighted_row": "\u2757 Row 75: expected 10 columns but found 9 -> [74] | [David Davis] | [249 Maple Dr, Apt 4B, Keystone] | [5849.17] | [Deliver to loading dock] | [Soylent LLC] | [Asia Pacific] | [Tara Lee] | [332]"
+  },
+  {
+    "row_number": 91,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 6 is empty even though similar rows usually contain data"
+    ],
+    "highlighted_row": "\u2757 Row 91: column 6 is empty even though similar rows usually contain data -> [90] | [Liam Smith] | [712 Birch Ln, Suite 1, Central City] | [2180.31] | [Call before drop-off] | [] | [Latin America] | [Ivy Lee] | [496] | [1]"
+  },
+  {
+    "row_number": 95,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 2 has numeric-looking value '74889' but this column usually contains text"
+    ],
+    "highlighted_row": "\u2757 Row 95: column 2 has numeric-looking value '74889' but this column usually contains text -> [94] | [74889] | [71 Highland Ave, Suite 1, Hub City] | [4324.01] | [Deliver to loading dock] | [Wayne Enterprises] | [North America] | [Noah Moore] | [448] | [4]"
+  },
+  {
+    "row_number": 96,
+    "expected_columns": 10,
+    "actual_columns": 10,
+    "reasons": [
+      "column 7 is empty even though similar rows usually contain data"
+    ],
+    "highlighted_row": "\u2757 Row 96: column 7 is empty even though similar rows usually contain data -> [95] | [Grace Davis] | [664 Highland Ave, Apt 4B, Springfield] | [9489.67] | [Handle with care] | [Wayne Enterprises] | [] | [Elena Clark] | [290] | [2]"
+  }
+]

@@ -5,6 +5,8 @@
 /out/*
 !/out/sample.csv
 !/out/.gitkeep
+!/out/sample_complex_converted_pipe.csv
+!/out/sample_complex_converted_pipe.issues.json
 
 /xls/
 

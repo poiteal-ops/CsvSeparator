@@ -1,5 +1,6 @@
 /in/*
 !/in/sample.csv
+!/in/sample_complex.csv
 
 /out/*
 !/out/sample.csv

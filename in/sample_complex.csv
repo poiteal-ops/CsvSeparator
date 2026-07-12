@@ -1,0 +1,8 @@
+id,customer_name,shipping_address,total,notes
+1,"Alice Johnson","123 Main St, Apt 4B, Springfield",29.99,"Needs delivery before noon"
+2,Bob Smith,456 Oak Ave, Suite 200, Metropolis,54.50,Prefers evening drop-off
+3,"Carol Nguyen","789 Pine Rd, Building C, Riverside",19.75
+4,"David Lee","321 Elm St, Floor 8, Gotham",,"Handle with care"
+5,"12345","555 River Rd, Unit 9, Star City",12.00,"Signature required"
+6,"Elena Cruz","10 Birch Ln | Rear Entrance, Suite 3, Central City",8.25,"Call before drop-off"
+7,"Frank Moore","88 Cedar Blvd, Unit 2, Gotham",15.40,"Fragile, handle with care"

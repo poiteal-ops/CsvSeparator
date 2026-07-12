@@ -7,6 +7,8 @@ Supports two modes:
     See README.md for the full flag reference and exit code meanings.
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import sys

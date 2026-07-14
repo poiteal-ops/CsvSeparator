@@ -15,5 +15,8 @@ authors = [
 [project.scripts]
 csvseparator = "csvseparator.main:main"
 
+[project.optional-dependencies]
+notebook = ["jupyter", "ipykernel"]
+
 [tool.setuptools.packages.find]
 where = ["."]

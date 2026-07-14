@@ -124,3 +124,15 @@ When `--quote-fix` is passed, the payload also includes a `quote_repairs` list, 
   - `main.py` - Command-line interface (interactive and non-interactive modes)
   - `__init__.py` - Package initialization
 - `tests/` - Unit tests covering both the detection logic and the non-interactive CLI
+- `notebooks/` - Optional Jupyter notebook for interactively exploring `CsvSeparatorDetector` (see below)
+
+## Notebook (exploration)
+
+`notebooks/explore_csvseparator.ipynb` walks through `CsvSeparatorDetector` step by step against a sample file with a deliberately unescaped comma (`notebooks/data/messy_sample.csv`): file info, parse warnings, structural issue detection, quote-fix repair, and conversion — each in its own cell so you can inspect the intermediate results.
+
+This is a dev/exploration aid, **not** a third entry point — the CLI (`run_interactive`/`run_noninteractive` in `main.py`) remains the only supported way to run the tool end-to-end.
+
+```bash
+pip install -e ".[notebook]"
+jupyter notebook notebooks/explore_csvseparator.ipynb
+```

@@ -1,16 +1,16 @@
-/in/*
-!/in/sample.csv
-!/in/sample_complex.csv
+/data/input/*
+!/data/input/sample.csv
+!/data/input/sample_complex.csv
 
-/out/*
-!/out/sample.csv
-!/out/.gitkeep
-!/out/sample_complex_converted_pipe.csv
-!/out/sample_complex_converted_pipe.issues.json
+/data/output/*
+!/data/output/sample.csv
+!/data/output/.gitkeep
+!/data/output/sample_complex_converted_pipe.csv
+!/data/output/sample_complex_converted_pipe.issues.json
 
 /xls/
 
-.claude/settings.local.json
+.claude/
 CLAUDE.md
 
 # Python
@@ -21,7 +21,10 @@ __pycache__/
 .venv-1/
 build/
 dist/
+.tox/
 
 # Jupyter
 .ipynb_checkpoints/
 /notebooks/scratch_out/
+
+/docs/    # personal dev docs -- gitignore-hygiene

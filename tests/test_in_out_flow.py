@@ -5,8 +5,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from csvseparator.main import build_arg_parser, get_project_directories, run_noninteractive
-from csvseparator.separator import CsvSeparatorDetector
+from src.main import build_arg_parser, get_project_directories, run_noninteractive
+from src.separator import CsvSeparatorDetector
 
 
 class ProjectDirectoriesTests(unittest.TestCase):
@@ -15,8 +15,8 @@ class ProjectDirectoriesTests(unittest.TestCase):
             project_root = Path(tmpdir) / "sample-project"
             input_dir, output_dir = get_project_directories(project_root)
 
-            self.assertEqual(input_dir, project_root / "in")
-            self.assertEqual(output_dir, project_root / "out")
+            self.assertEqual(input_dir, project_root / "data" / "input")
+            self.assertEqual(output_dir, project_root / "data" / "output")
             self.assertTrue(input_dir.exists())
             self.assertTrue(output_dir.exists())
 

@@ -13,7 +13,7 @@ authors = [
 ]
 
 [project.scripts]
-csvseparator = "csvseparator.main:main"
+csvseparator = "src.main:main"
 
 [project.optional-dependencies]
 notebook = ["jupyter", "ipykernel"]

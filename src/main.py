@@ -14,7 +14,7 @@ import json
 import sys
 from pathlib import Path
 
-from csvseparator.separator import CsvSeparatorDetector, issues_sidecar_path, separator_label
+from src.separator import CsvSeparatorDetector, issues_sidecar_path, separator_label
 
 SEPARATOR_CHOICES = {"pipe": "|", "semicolon": ";", "tab": "\t", "comma": ","}
 
@@ -24,10 +24,10 @@ EXIT_ERROR = 1
 
 
 def get_project_directories(project_root: Path | None = None) -> tuple[Path, Path]:
-    """Ensure the project has in/ and out/ folders and return their paths."""
+    """Ensure the project has data/input/ and data/output/ folders and return their paths."""
     root = Path(project_root or Path.cwd())
-    input_dir = root / "in"
-    output_dir = root / "out"
+    input_dir = root / "data" / "input"
+    output_dir = root / "data" / "output"
 
     input_dir.mkdir(parents=True, exist_ok=True)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -35,9 +35,9 @@ def get_project_directories(project_root: Path | None = None) -> tuple[Path, Pat
 
 
 def prompt_for_file_path(input_dir: Path) -> str:
-    """Prompt user for a CSV file name inside the in folder."""
+    """Prompt user for a CSV file name inside the data/input folder."""
     while True:
-        file_name = input("\nEnter the CSV file name in the 'in' folder: ").strip()
+        file_name = input("\nEnter the CSV file name in the 'data/input' folder: ").strip()
         if not file_name:
             print("Please provide a valid file name.")
             continue
@@ -169,7 +169,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
         "--input", "-i",
         help="Path to the CSV file to analyze. Enables non-interactive mode. "
              "If not absolute and not found relative to the current directory, "
-             "it is also looked up inside ./in.",
+             "it is also looked up inside ./data/input.",
     )
     parser.add_argument(
         "--separator", "-s",
@@ -187,7 +187,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--output-dir",
-        help="Directory for the converted file (default: ./out). Ignored if --output is given.",
+        help="Directory for the converted file (default: ./data/output). Ignored if --output is given.",
     )
     parser.add_argument(
         "--analyze-only",
@@ -229,7 +229,7 @@ def _resolve_input_path(raw_path: str) -> Path:
     candidate = Path(raw_path)
     if candidate.exists():
         return candidate
-    fallback = Path.cwd() / "in" / raw_path
+    fallback = Path.cwd() / "data" / "input" / raw_path
     if fallback.exists():
         return fallback
     return candidate  # let CsvSeparatorDetector raise a clear FileNotFoundError
@@ -302,7 +302,7 @@ def run_noninteractive(args: argparse.Namespace) -> int:
 
     new_separator = _resolve_separator(args)
     collisions = detector.count_separator_collisions(new_separator)
-    output_dir = args.output_dir or str(Path.cwd() / "out")
+    output_dir = args.output_dir or str(Path.cwd() / "data" / "output")
     output_path = detector.convert_separator(
         new_separator, output_path=args.output, output_dir=output_dir, quote_fix=args.quote_fix,
     )

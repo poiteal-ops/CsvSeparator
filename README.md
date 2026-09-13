@@ -19,16 +19,16 @@ It can be used two ways: interactively at a terminal, or non-interactively from 
 ## Interactive usage (terminal)
 
 ```bash
-python -m csvseparator.main
+python -m src.main
 ```
 
 The tool will:
-1. Prompt you for the path to the CSV file (relative to the `in/` folder)
+1. Prompt you for the path to the CSV file (relative to the `data/input/` folder)
 2. Analyze the file to detect if commas in text fields are problematic
 3. Ask if you want to proceed with conversion
 4. Suggest `|` as the default separator
 5. Allow you to choose a different separator if desired
-6. Create a new CSV file with the updated separator in the `out/` folder
+6. Create a new CSV file with the updated separator in the `data/output/` folder
 
 ## Non-interactive usage (scripts / runbooks)
 
@@ -36,28 +36,28 @@ Passing `--input` switches to a fully flag-driven mode with no prompts, so it ca
 
 ```bash
 # Report only — never writes a file. Exits 2 if issues were found, 0 if clean.
-python -m csvseparator.main --input path/to/file.csv --analyze-only
+python -m src.main --input path/to/file.csv --analyze-only
 
 # Same, but machine-readable output for a runbook step that parses the result.
-python -m csvseparator.main --input path/to/file.csv --analyze-only --format json
+python -m src.main --input path/to/file.csv --analyze-only --format json
 
 # Actually write the converted file. --yes is required to write anything.
-python -m csvseparator.main --input path/to/file.csv --separator pipe --yes --output-dir out/
+python -m src.main --input path/to/file.csv --separator pipe --yes --output-dir data/output/
 
 # Repair rows broken by unescaped commas by quoting the offending field,
 # keeping the comma separator (see "Quote-fix repair" below).
-python -m csvseparator.main --input path/to/file.csv --separator comma --quote-fix --yes --output-dir out/
+python -m src.main --input path/to/file.csv --separator comma --quote-fix --yes --output-dir data/output/
 ```
 
 ### Flags
 
 | Flag | Description |
 | --- | --- |
-| `--input`, `-i` | Path to the CSV file. Required to enable non-interactive mode. If not found as given, it is also looked up inside `./in`. |
+| `--input`, `-i` | Path to the CSV file. Required to enable non-interactive mode. If not found as given, it is also looked up inside `./data/input`. |
 | `--separator`, `-s` | `pipe` (default), `semicolon`, `tab`, `comma`, or `custom`. |
 | `--custom-separator` | The single character to use when `--separator custom` is given. |
 | `--output`, `-o` | Exact output file path. Overrides `--output-dir`. |
-| `--output-dir` | Directory for the converted file (default: `./out`). |
+| `--output-dir` | Directory for the converted file (default: `./data/output`). |
 | `--analyze-only` | Only report structural issues; never writes a file. |
 | `--quote-fix` | Attempt to repair rows with extra columns by quoting the field that contains the unescaped comma, before any separator conversion. See "Quote-fix repair" below. |
 | `--yes`, `-y` | Required to actually write the converted file. Without it, the run only analyzes and reports what it would do. |
@@ -93,7 +93,7 @@ Runbooks should branch on the exit code rather than scraping text output:
 
 ```json
 {
-  "file": "in/example.csv",
+  "file": "data/input/example.csv",
   "info": {"total_rows": 10, "header_row": ["id", "name"], "column_count": 2, "file_size": 512},
   "warnings": ["File is not valid UTF-8; read using 'cp1252' fallback encoding"],
   "issues_found": true,
@@ -108,7 +108,7 @@ Runbooks should branch on the exit code rather than scraping text output:
     }
   ],
   "converted": true,
-  "output_path": "out/example_converted_pipe.csv",
+  "output_path": "data/output/example_converted_pipe.csv",
   "separator_collisions": 0
 }
 ```
@@ -119,7 +119,7 @@ When `--quote-fix` is passed, the payload also includes a `quote_repairs` list, 
 
 ## Project Structure
 
-- `csvseparator/` - Main package
+- `src/` - Main package
   - `separator.py` - Core CSV separator detection and conversion logic
   - `main.py` - Command-line interface (interactive and non-interactive modes)
   - `__init__.py` - Package initialization
